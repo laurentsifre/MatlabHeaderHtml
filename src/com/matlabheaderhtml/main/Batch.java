@@ -41,7 +41,7 @@ public class Batch {
 			List<String> allFiles = Batch.listOfFileInFolderWithExtension(pathToPackage, ".m");
 			for (String file : allFiles){
 				try {
-					System.out.println(file);
+					System.out.println("first pass on "+file);
 					MatlabFunction fun = Parser.readMatlabFunFromFile(pathToPackage+"/"+file);
 					fun.setPackageName(currPackage);
 					Writer.writeFunInDoc(fun, pathToOutputDoc);
@@ -57,7 +57,7 @@ public class Batch {
 			List<String> allFiles = Batch.listOfFileInFolderWithExtension(pathToPackage, ".m");
 			for (String file : allFiles){
 				try {
-					System.out.println(file);
+					System.out.println("second pass on "+file);
 					MatlabFunction fun = Parser.readMatlabFunFromFile(pathToPackage+"/"+file);
 					fun.setPackageName(currPackage);
 					Writer.writeFunInDoc(fun, pathToOutputDoc);
@@ -82,7 +82,6 @@ public class Batch {
 		else {
 			String pathToYourCode = args[0];
 			String pathToOutputDoc = args[1];
-
 			
 			List<String> validPackages = Arrays.asList(args).subList(2, args.length);
 			parseAll(pathToYourCode, pathToOutputDoc, validPackages);
@@ -94,7 +93,6 @@ public class Batch {
 		FilenameFilter filter = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
-				// TODO Auto-generated method stub
 				return (name.endsWith(extension));
 			}
 		};

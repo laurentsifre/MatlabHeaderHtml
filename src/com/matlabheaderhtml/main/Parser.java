@@ -33,7 +33,7 @@ public class Parser {
 		fun.setName(m.group(1).toLowerCase());
 
 		if (allFunctions.containsKey(fun.getName())){
-			System.out.println("WARNING possible duplicate of "+fun.getName());
+			fun = allFunctions.get(fun.getName());
 		} else {
 			allFunctions.put(fun.getName(), fun);
 		}
@@ -60,7 +60,6 @@ public class Parser {
 		List<MatlabFunction> retreivedSiblings = new ArrayList<MatlabFunction>(); 
 		for (String sibName : seeAlsoArr){
 			String sibNameFormat = sibName.toLowerCase().replaceAll(" ","");
-			System.out.println("sibname "+ sibNameFormat);
 			if (allFunctions.containsKey(sibNameFormat)){
 				MatlabFunction retrievedFun = allFunctions.get(sibNameFormat);
 				retreivedSiblings.add(retrievedFun);
@@ -68,9 +67,9 @@ public class Parser {
 		}
 		fun.setSeeAlso(retreivedSiblings);
 
-
 		return fun;
 	}
+	
 
 	public static String readBetweenFlag(String str, String flag1, String flag2){
 		Pattern p = Pattern.compile(flag1+"(.*?)"+flag2);
@@ -92,27 +91,11 @@ public class Parser {
 		return fun;
 	}
 
-	public static void main(String[] args){
-		String pathToFile = "/Users/laurentsifre/Dropbox/these/code/scatnet/scatnet/core/scat.m";
-		String str;
-		try {
-			str = readFileAsString(pathToFile);
 
-			MatlabFunction fun = Parser.read(str);
-			System.out.println(fun);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	public static String readFileAsString(String filePath) throws java.io.IOException
-	{
+	public static String readFileAsString(String filePath) throws java.io.IOException{
 		BufferedReader reader = new BufferedReader(new FileReader(filePath));
 		String line, results = "";
-		while( ( line = reader.readLine() ) != null)
-		{
+		while( ( line = reader.readLine() ) != null){
 			results += (line+"");
 		}
 		reader.close();
