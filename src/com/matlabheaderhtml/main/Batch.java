@@ -44,7 +44,7 @@ public class Batch {
 					System.out.println("first pass on "+file);
 					MatlabFunction fun = Parser.readMatlabFunFromFile(pathToPackage+"/"+file);
 					fun.setPackageName(currPackage);
-					Writer.writeFunInDoc(fun, pathToOutputDoc);
+					//Writer.writeFunInDoc(fun, pathToOutputDoc);
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -58,7 +58,8 @@ public class Batch {
 			for (String file : allFiles){
 				try {
 					System.out.println("second pass on "+file);
-					MatlabFunction fun = Parser.readMatlabFunFromFile(pathToPackage+"/"+file);
+					String filePath = pathToPackage+"/"+file;
+					MatlabFunction fun = Parser.readMatlabFunFromFile(filePath);
 					fun.setPackageName(currPackage);
 					Writer.writeFunInDoc(fun, pathToOutputDoc);
 

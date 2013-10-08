@@ -75,7 +75,7 @@ public class Writer {
 		String pathToDoc = "/Users/laurentsifre/Dropbox/these/code/docscatnet";
 		String pathToFile = "/Users/laurentsifre/Dropbox/these/code/scatnet/scatnet/core/scat.m";
 		try {
-			MatlabFunction fun = Parser.read(Parser.readFileAsString(pathToFile));
+			MatlabFunction fun = Parser.readLinePerLine(Parser.readFileAsString(pathToFile));
 			StringBuffer sb = new StringBuffer();
 			Writer.write(fun, sb, pathToDoc);
 			String str = sb.toString();

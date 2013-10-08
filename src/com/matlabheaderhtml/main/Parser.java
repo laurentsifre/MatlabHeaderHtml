@@ -23,53 +23,6 @@ public class Parser {
 	private static HashMap<String, MatlabFunction> allFunctions = new HashMap<String, MatlabFunction>();
 
 
-	public static MatlabFunction read(String str){
-		str = str.replaceAll("%", "");
-		MatlabFunction fun = new MatlabFunction();
-
-		Pattern p = Pattern.compile(" (.*?) ");
-		Matcher m = p.matcher(str);
-		m.find();
-		fun.setName(m.group(1).toLowerCase());
-
-		if (allFunctions.containsKey(fun.getName())){
-			fun = allFunctions.get(fun.getName());
-		} else {
-			allFunctions.put(fun.getName(), fun);
-		}
-
-		String extracted = readBetweenFlag(str, fun.getName().toUpperCase(), "Usage");
-		fun.setDescriptionOneLiner(extracted);
-
-		extracted = readBetweenFlag(str, "Usage", "Input");
-		fun.setUsage(extracted);
-
-		extracted = readBetweenFlag(str, "Input", "Output");
-		fun.setInput(extracted);
-		
-		extracted = readBetweenFlag(str, "Output", "Description");
-		fun.setOuput(extracted);
-
-		extracted  = readBetweenFlag(str, "Description", "See also");
-		fun.setDescription(extracted);
-		
-		extracted = readBetweenFlag(str, "See also", "function");
-		String[] seeAlsoArr = extracted.split(", ");
-		
-		fun.setSeeAlsoNames(Arrays.asList(seeAlsoArr));
-		List<MatlabFunction> retreivedSiblings = new ArrayList<MatlabFunction>(); 
-		for (String sibName : seeAlsoArr){
-			String sibNameFormat = sibName.toLowerCase().replaceAll(" ","");
-			if (allFunctions.containsKey(sibNameFormat)){
-				MatlabFunction retrievedFun = allFunctions.get(sibNameFormat);
-				retreivedSiblings.add(retrievedFun);
-			}
-		}
-		fun.setSeeAlso(retreivedSiblings);
-
-		return fun;
-	}
-	
 	public enum State{
 		NOT_SET,
 		USAGE,
@@ -91,7 +44,7 @@ public class Parser {
 			System.out.println("warning : first line should contain funtion name");
 			return null;
 		}
-		String name = firstLineSplit[1];
+		String name = firstLineSplit[1].toLowerCase();
 		// get the one liner descr as the rest of the first line
 		StringBuffer oneLinerDescrBuff = new StringBuffer();
 		for (int i=2; i<firstLineSplit.length; i++){
@@ -102,7 +55,9 @@ public class Parser {
 		// retrieves the function given its name if already parse
 		MatlabFunction fun;
 		if (allFunctions.containsKey(name)){
-			fun = allFunctions.get(name);
+			//fun = allFunctions.get(name);
+			fun = new MatlabFunction();
+			fun.setName(name);
 		} else {
 			fun = new MatlabFunction();
 			fun.setName(name);
@@ -176,18 +131,7 @@ public class Parser {
 		
 	}
 
-	public static String readBetweenFlag(String str, String flag1, String flag2){
-		Pattern p = Pattern.compile(flag1+"(.*?)"+flag2);
-		Matcher m = p.matcher(str);
-		m.find();
-		String extracted = "";
-		try {
-			extracted = m.group(1);
-		} catch (IllegalStateException e){
-			System.out.println("could not find flag "+flag1);
-		}
-		return extracted;
-	}
+
 	
 	public static MatlabFunction readMatlabFunFromFile(String filePath) throws IOException{
 		String str;
