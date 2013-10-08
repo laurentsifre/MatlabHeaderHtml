@@ -40,4 +40,11 @@ A precompiled jar is provided. From the terminal, running
 
 will convert all .m files in path/to/code/folder1 and in path/to/code/folder 2 and will write corresponding html documentation in path/to/doc/folder1 and path/to/doc/folder2
 
+Example
+-------------
+
+A working example with two basic matlab function can be run from the terminal
+with the following command
+
+	java -jar MatlabHeaderHtml.jar ./example/code ./example/doc folder1 fold
 
