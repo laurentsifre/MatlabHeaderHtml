@@ -34,3 +34,8 @@ For MatlabHeaderHtml to work, .m files header (i.e. first few lines) most be for
 Usage
 --------------
 
+From the terminal run
+
+	java -jar MatlabHeaderHtml.jar path/to/your/matlab/code/root/ /path/to/where/you/want/the/doc/to/be/compiled subfolder1 subfolder2 subfolder3
+
+

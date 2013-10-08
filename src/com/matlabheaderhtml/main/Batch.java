@@ -1,7 +1,10 @@
 package com.matlabheaderhtml.main;
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,10 +14,9 @@ import java.util.List;
 
 public class Batch {
 
-	public static void parseAll(String pathToFile, List<String> validPackages){
-		String pathToDoc = "/Users/laurentsifre/Dropbox/these/code/docscatnet";
+	public static void 	parseAll(String pathToYourCode, String pathToOutputDoc, List<String> validPackages){
 		for (String currPackage : validPackages){
-			File theDir = new File(pathToDoc +"/"+ currPackage);
+			File theDir = new File(pathToOutputDoc +"/"+ currPackage);
 			// if the directory does not exist, create it
 			if (!theDir.exists()) {
 				System.out.println("creating directory: " + currPackage);
@@ -23,7 +25,7 @@ public class Batch {
 					System.out.println("DIR created");  
 				}
 			}
-			String pathToPackage = pathToFile + "/" + currPackage;
+			String pathToPackage = pathToYourCode + "/" + currPackage;
 			List<String> allFiles = Batch.listOfFileInFolderWithExtension(pathToPackage, ".m");
 			// first pass to parse all
 			for (String file : allFiles){
@@ -31,7 +33,7 @@ public class Batch {
 					System.out.println(file);
 					MatlabFunction fun = Parser.readMatlabFunFromFile(pathToPackage+"/"+file);
 					fun.setPackageName(currPackage);
-					Writer.writeFunInDoc(fun, pathToDoc);
+					Writer.writeFunInDoc(fun, pathToOutputDoc);
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -43,7 +45,7 @@ public class Batch {
 					System.out.println(file);
 					MatlabFunction fun = Parser.readMatlabFunFromFile(pathToPackage+"/"+file);
 					fun.setPackageName(currPackage);
-					Writer.writeFunInDoc(fun, pathToDoc);
+					Writer.writeFunInDoc(fun, pathToOutputDoc);
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -53,9 +55,21 @@ public class Batch {
 		}
 	}
 
-	public static void main(String[] args){
-		List<String> validPackages = Arrays.asList("core", "convolution");
-		parseAll("/Users/laurentsifre/Dropbox/these/code/scatnet/scatnet", validPackages);
+	public static void main(String[] args) throws IOException{
+		if (args.length < 2){
+			BufferedReader br = new BufferedReader(new FileReader("readme.md"));
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				System.out.println(line);
+			}
+			br.close();
+		}
+		else {
+			String pathToYourCode = args[0];
+			String pathToOutputDoc = args[1];
+			List<String> validPackages = Arrays.asList(args).subList(2, args.length);
+			parseAll(pathToYourCode, pathToOutputDoc, validPackages);
+		}
 	}
 
 	public static List<String> listOfFileInFolderWithExtension(String folder, final String extension){
