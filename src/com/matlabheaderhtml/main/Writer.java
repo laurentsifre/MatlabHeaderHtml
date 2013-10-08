@@ -22,16 +22,16 @@ public class Writer {
 		sb.append(fun.getDescriptionOneLiner());
 		
 		Writer.writeSubtitle("Usage", sb);
-		sb.append(fun.getUsage());
+		writeCode(fun.getUsage(), sb);
 		
 		Writer.writeSubtitle("Input", sb);
-		sb.append(fun.getInput());
+		writeCode(fun.getInput(), sb);
 		
 		Writer.writeSubtitle("Output", sb);
-		sb.append(fun.getOuput());
+		writeCode(fun.getOuput(), sb);
 		
 		Writer.writeSubtitle("Description", sb);
-		sb.append(fun.getDescription());
+		writeCode(fun.getDescription(), sb);
 		
 		Writer.writeSubtitle("See also", sb);
 		sb.append("<ul>");
@@ -49,6 +49,11 @@ public class Writer {
 		sb.append("\n </h2> \n");
 	}
 	
+	private static void writeCode(String str, StringBuffer sb){
+		sb.append("<pre><code>");
+		sb.append(str);
+		sb.append("</code></pre>");
+	}
 	
 	public static void writeFunInDoc(MatlabFunction fun, String pathToDoc){
 		try {
@@ -87,4 +92,6 @@ public class Writer {
 	public static String pathForFun(MatlabFunction fun, String pathToDoc){
 		return pathToDoc + "/" + fun.getPackageName() + "/" + fun.getName() + ".html";
 	}
+	
+	
 }

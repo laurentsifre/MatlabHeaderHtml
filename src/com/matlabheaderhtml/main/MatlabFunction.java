@@ -5,13 +5,13 @@ import java.util.List;
 
 public class MatlabFunction {
 
-	private String name;
+	private String name = "";
 	private String packageName = "";
-	private String descriptionOneLiner;
-	private String usage;
-	private String input;
-	private String ouput;
-	private String description;
+	private String descriptionOneLiner = "";
+	private String usage = "";
+	private String input = "";
+	private String ouput = "";
+	private String description = "";
 	
 	private List<String> seeAlsoNames;
 	private List<MatlabFunction> seeAlso;
