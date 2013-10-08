@@ -46,5 +46,5 @@ Example
 A working example with two basic matlab function can be run from the terminal
 with the following command
 
-	java -jar MatlabHeaderHtml.jar ./example/code ./example/doc folder1 fold
+	java -jar MatlabHeaderHtml.jar ./example/code ./example/doc folder1 folder2
 
