@@ -1,4 +1,4 @@
-package parse;
+package com.matlabheaderhtml.main;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import hierarchy.MatlabFunction;
+
 
 /**
  * a static factory method for matlab fun from file

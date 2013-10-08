@@ -1,7 +1,5 @@
-package batch;
+package com.matlabheaderhtml.main;
 
-import hierarchy.MatlabFunction;
-import html.Writer;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -10,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import parse.Parser;
 
 public class Batch {
 

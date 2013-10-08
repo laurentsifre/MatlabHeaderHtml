@@ -1,7 +1,9 @@
 MatlabHeaderHtml
 ===============
 
-MatlabHeaderHtml parses the header of MATLAB .m files and convert it into browsable html files.
+MatlabHeaderHtml parses the header of your MATLAB .m files and convert it into minimalist browsable html files.
+
+It is a command-line tool written in Java.
 
 Format
 --------------
@@ -28,4 +30,7 @@ For MatlabHeaderHtml to work, .m files header (i.e. first few lines) most be for
 	%	ANOTHER_FUNCTION_RELATED_TO_YOUR_FUNCTION, YET_ANOTHER_FUNCTION_RELATED
 	%
 	function [out1, out2] = your_function(in1, in2)
+
+Usage
+--------------
 

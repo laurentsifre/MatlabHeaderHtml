@@ -1,10 +1,9 @@
-package html;
+package com.matlabheaderhtml.main;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import parse.Parser;
-import hierarchy.MatlabFunction;
+
 
 public class Writer {
 

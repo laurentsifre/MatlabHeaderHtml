@@ -1,4 +1,4 @@
-package hierarchy;
+package com.matlabheaderhtml.main;
 
 import java.util.ArrayList;
 import java.util.List;
