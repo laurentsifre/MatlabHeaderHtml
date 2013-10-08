@@ -34,11 +34,10 @@ For MatlabHeaderHtml to work, .m files header (i.e. first few lines) most be for
 Usage
 --------------
 
-From the terminal, running
+A precompiled jar is provided. From the terminal, running
 
 	java -jar MatlabHeaderHtml.jar path/to/code path/to/doc folder1 folder2
 
 will convert all .m files in path/to/code/folder1 and in path/to/code/folder 2 and will write corresponding html documentation in path/to/doc/folder1 and path/to/doc/folder2
-
 
 
