@@ -14,6 +14,19 @@ import java.util.List;
 public class Batch {
 
 	public static void 	parseAll(String pathToYourCode, String pathToOutputDoc, List<String> validPackages){
+		// convert to absolute paths
+		File fileToYourCode = new File(pathToYourCode);
+		File fileToOutputDoc = new File(pathToOutputDoc);
+		try {
+			pathToYourCode = fileToYourCode.getCanonicalPath();
+			pathToOutputDoc = fileToOutputDoc.getCanonicalPath();
+			System.out.println("absolute path to your code is "+pathToYourCode);
+			System.out.println("absolute path to your doc is "+pathToOutputDoc);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		// first pass to parse all
 		for (String currPackage : validPackages){
 			File theDir = new File(pathToOutputDoc +"/"+ currPackage);
 			// if the directory does not exist, create it
@@ -26,7 +39,6 @@ public class Batch {
 			}
 			String pathToPackage = pathToYourCode + "/" + currPackage;
 			List<String> allFiles = Batch.listOfFileInFolderWithExtension(pathToPackage, ".m");
-			// first pass to parse all
 			for (String file : allFiles){
 				try {
 					System.out.println(file);
@@ -38,7 +50,11 @@ public class Batch {
 					e.printStackTrace();
 				}
 			}
-			// second pass with all the link
+		}
+		// second pass with all the link
+		for (String currPackage : validPackages){
+			String pathToPackage = pathToYourCode + "/" + currPackage;
+			List<String> allFiles = Batch.listOfFileInFolderWithExtension(pathToPackage, ".m");
 			for (String file : allFiles){
 				try {
 					System.out.println(file);
@@ -66,6 +82,8 @@ public class Batch {
 		else {
 			String pathToYourCode = args[0];
 			String pathToOutputDoc = args[1];
+
+			
 			List<String> validPackages = Arrays.asList(args).subList(2, args.length);
 			parseAll(pathToYourCode, pathToOutputDoc, validPackages);
 		}
