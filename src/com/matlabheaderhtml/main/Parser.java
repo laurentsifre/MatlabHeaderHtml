@@ -110,8 +110,7 @@ public class Parser {
 						break;
 					case SEEL_ALSO:
 						String[] seeAlsoArr = currLine.split(", ");
-						fun.setSeeAlsoNames(Arrays.asList(seeAlsoArr));
-						List<MatlabFunction> retreivedSiblings = new ArrayList<MatlabFunction>(); 
+						List<MatlabFunction> retreivedSiblings = fun.getSeeAlso(); 
 						for (String sibName : seeAlsoArr){
 							String sibNameFormat = sibName.toLowerCase().replaceAll(" ","");
 							if (allFunctions.containsKey(sibNameFormat)){
@@ -136,7 +135,6 @@ public class Parser {
 	public static MatlabFunction readMatlabFunFromFile(String filePath) throws IOException{
 		String str;
 		str = readFileAsString(filePath);
-		//MatlabFunction fun = Parser.read(str);
 		MatlabFunction fun = Parser.readLinePerLine(str);
 		return fun;
 	}

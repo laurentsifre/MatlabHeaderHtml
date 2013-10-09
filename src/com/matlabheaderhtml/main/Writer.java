@@ -11,7 +11,7 @@ public class Writer {
 		
 		sb.append("<h1> \n");
 		sb.append("<a href=\"" +pathForFun(fun, pathToDoc)+"\"> " );
-		sb.append(fun.getName());
+		sb.append(fun.getName().toUpperCase());
 		sb.append("</a>");
 		sb.append("</h1>\n");
 		
@@ -71,23 +71,6 @@ public class Writer {
 		}
 	}
 	
-	public static void main(String[] args){
-		String pathToDoc = "/Users/laurentsifre/Dropbox/these/code/docscatnet";
-		String pathToFile = "/Users/laurentsifre/Dropbox/these/code/scatnet/scatnet/core/scat.m";
-		try {
-			MatlabFunction fun = Parser.readLinePerLine(Parser.readFileAsString(pathToFile));
-			StringBuffer sb = new StringBuffer();
-			Writer.write(fun, sb, pathToDoc);
-			String str = sb.toString();
-			String pathForThisDocFile = pathForFun(fun, pathToDoc);
-			System.out.println(pathForThisDocFile);
-			PrintWriter writer = new PrintWriter(pathForThisDocFile);
-			writer.write(str);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public static String pathForFun(MatlabFunction fun, String pathToDoc){
 		return pathToDoc + "/" + fun.getPackageName() + "/" + fun.getName() + ".html";
