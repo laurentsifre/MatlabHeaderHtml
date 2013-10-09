@@ -64,6 +64,7 @@ public class Parser {
 			fun.setDescriptionOneLiner(oneLinerDescr);
 			allFunctions.put(name, fun);
 		}
+		fun.setDescriptionOneLiner(oneLinerDescr);
 
 		State state = State.NOT_SET;
 		// loop over the rest of the lines 
