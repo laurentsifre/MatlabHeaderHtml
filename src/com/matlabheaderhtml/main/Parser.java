@@ -40,7 +40,7 @@ public class Parser {
 			return null;
 		}
 		String[] firstLineSplit = lines[0].split(" ");
-		if (firstLineSplit.length < 1){
+		if (firstLineSplit.length < 2){
 			System.out.println("warning : first line should contain funtion name");
 			return null;
 		}
