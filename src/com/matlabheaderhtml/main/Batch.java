@@ -10,10 +10,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * The main class that will parse and format all the files
+ * @author laurentsifre
+ *
+ */
 public class Batch {
 
-	public static void 	parseAll(String pathToYourCode, String pathToOutputDoc, List<String> validPackages){
+	/**
+	 * the main method that does parse and write all files in all valid packages 
+	 * @param pathToYourCode
+	 * @param pathToOutputDoc
+	 * @param validPackages
+	 */
+	public static void 	parseAndFormat(String pathToYourCode, String pathToOutputDoc, List<String> validPackages){
 		// convert to absolute paths
 		File fileToYourCode = new File(pathToYourCode);
 		File fileToOutputDoc = new File(pathToOutputDoc);
@@ -75,6 +85,14 @@ public class Batch {
 		}
 	}
 
+	/**
+	 * the main method 
+	 * @param args 
+	 * 	first arg input file path
+	 *  second arg output doc path
+	 *  third and more argument are subfolder  
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException{
 		if (args.length < 2){
 			BufferedReader br = new BufferedReader(new FileReader("readme.md"));
@@ -89,12 +107,17 @@ public class Batch {
 			String pathToOutputDoc = args[1];
 			
 			List<String> validPackages = Arrays.asList(args).subList(2, args.length);
-			parseAll(pathToYourCode, pathToOutputDoc, validPackages);
+			parseAndFormat(pathToYourCode, pathToOutputDoc, validPackages);
 		}
 	}
 
+	/**
+	 * a utility method to list all the file in a specified folder with a given extension
+	 * @param folder
+	 * @param extension
+	 * @return
+	 */
 	public static List<String> listOfFileInFolderWithExtension(String folder, final String extension){
-
 		FilenameFilter filter = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
