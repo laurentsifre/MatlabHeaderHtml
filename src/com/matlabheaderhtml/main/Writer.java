@@ -14,41 +14,45 @@ public class Writer {
 	 * @param pathToDoc the path to documentation (needed for correct html link)
 	 */
 	public static void write(MatlabFunction fun, StringBuffer sb, String pathToDoc){
-		
+
 		sb.append("<h1> \n");
-		sb.append("<a href=\"" +pathForFun(fun, pathToDoc)+"\"> " );
-		sb.append(fun.getName().toUpperCase());
-		sb.append("</a>");
+		sb.append("Function "+fun.getName().toUpperCase());
 		sb.append("</h1>\n");
-		
+
 		Writer.writeSubtitle("Package", sb);
-		sb.append(fun.getPackageName());
-		
+		if (fun.getMatlabPackage() != null){
+			sb.append("<a href=\"" +pathForPackage(fun.getMatlabPackage(), pathToDoc)+"\"> " );
+			sb.append(fun.getPackageName());
+			sb.append("</a>");
+		} else {
+			sb.append(fun.getPackageName());
+		}
+
 		Writer.writeSubtitle("Short description", sb);
 		sb.append(fun.getDescriptionOneLiner());
-		
+
 		Writer.writeSubtitle("Usage", sb);
 		writeCode(fun.getUsage(), sb);
-		
+
 		Writer.writeSubtitle("Input", sb);
 		writeCode(fun.getInput(), sb);
-		
+
 		Writer.writeSubtitle("Output", sb);
 		writeCode(fun.getOuput(), sb);
-		
+
 		Writer.writeSubtitle("Description", sb);
 		writeCode(fun.getDescription(), sb);
-		
+
 		Writer.writeSubtitle("See also", sb);
 		sb.append("<ul>");
-		
+
 		for (MatlabFunction sibling : fun.getSeeAlso()){
 			String pathToSibling = pathForFun(sibling, pathToDoc);
 			sb.append("<li>\n <a href=\""+pathToSibling+" \"> " + sibling.getName() +"</a></li>");
 		}
 		sb.append("</ul>\n\n");
 	}
-	
+
 	/**
 	 * utility method to write between h2 html tag 
 	 * @param subtitle
@@ -59,7 +63,7 @@ public class Writer {
 		sb.append(subtitle);
 		sb.append("\n </h2> \n");
 	}
-	
+
 	/**
 	 * utility method to write between pre and code html tag 
 	 * @param subtitle
@@ -70,7 +74,7 @@ public class Writer {
 		sb.append(str);
 		sb.append("</code></pre>");
 	}
-	
+
 	/**
 	 * write a matlab function in a file 
 	 * @param fun the matlab function to write
@@ -91,7 +95,7 @@ public class Writer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * a utility method to compute the path of file where to write matlab function
 	 * @param fun
@@ -101,6 +105,37 @@ public class Writer {
 	public static String pathForFun(MatlabFunction fun, String pathToDoc){
 		return pathToDoc + "/" + fun.getPackageName() + "/" + fun.getName() + ".html";
 	}
-	
-	
+
+
+	private static String toString(MatlabPackage matlabPackage, String pathToDoc){
+		StringBuffer sb = new StringBuffer();
+		sb.append("<h1> \n");
+		sb.append("Package "+matlabPackage.getName());
+		sb.append("</h1> \n");
+		sb.append("<ul>");
+		for (MatlabFunction sibling : matlabPackage.getFunctions()){
+			String pathToSibling = pathForFun(sibling, pathToDoc);
+			sb.append("<li>\n <a href=\""+pathToSibling+" \"> " + sibling.getName() +"</a></li>");
+		}
+		sb.append("</ul>\n\n");
+		return sb.toString();
+	}
+
+	public static void writePackageInDoc(MatlabPackage matlabPackage, String pathToDoc){
+		try {
+			String str = toString(matlabPackage, pathToDoc);
+			String pathForThisDocFile = pathForPackage(matlabPackage, pathToDoc);
+			System.out.println(pathForThisDocFile);
+			PrintWriter writer = new PrintWriter(pathForThisDocFile);
+			writer.write(str);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static String pathForPackage(MatlabPackage matlabPackage, String pathToDoc){
+		return pathToDoc + "/" + matlabPackage.getName() + "/all_functions.html";
+	}
+
 }

@@ -15,7 +15,7 @@ public class Parser {
 
 
 	private static HashMap<String, MatlabFunction> allFunctions = new HashMap<String, MatlabFunction>();
-
+	private static HashMap<String, MatlabPackage> allPackages = new HashMap<String, MatlabPackage>();
 
 	public enum State{
 		NOT_SET,
@@ -26,7 +26,7 @@ public class Parser {
 		SEEL_ALSO,
 	}
 	
-	public static MatlabFunction readLinePerLine(String header){
+	public static MatlabFunction readLinePerLine(String header, String packageName){
 		// get the name
 		header = header.replaceAll("%", "");
 		String[] lines = header.split("\n");
@@ -121,16 +121,28 @@ public class Parser {
 				}
 			}
 		}
+		fun.setPackageName(packageName);
+		MatlabPackage matlabPackage;
+		if (allPackages.containsKey(fun.getPackageName())){
+			matlabPackage = allPackages.get(fun.getPackageName());
+		} else {
+			matlabPackage  = new MatlabPackage(fun.getPackageName());
+			allPackages.put(fun.getPackageName(), matlabPackage);
+		}
+		if (!matlabPackage.getFunctions().contains(fun)){
+			matlabPackage.getFunctions().add(fun);
+		}
+		fun.setMatlabPackage(matlabPackage);
 		return fun;
 		
 	}
 
 
 	
-	public static MatlabFunction readMatlabFunFromFile(String filePath) throws IOException{
+	public static MatlabFunction readMatlabFunFromFile(String filePath, String packageName) throws IOException{
 		String str;
 		str = readFileAsString(filePath);
-		MatlabFunction fun = Parser.readLinePerLine(str);
+		MatlabFunction fun = Parser.readLinePerLine(str, packageName);
 		return fun;
 	}
 
@@ -143,5 +155,14 @@ public class Parser {
 		}
 		reader.close();
 		return results;
+	}
+
+
+
+	/**
+	 * @return the allPackages
+	 */
+	public static HashMap<String, MatlabPackage> getAllPackages() {
+		return allPackages;
 	}
 }
