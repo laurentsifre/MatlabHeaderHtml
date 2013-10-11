@@ -2,6 +2,7 @@ package com.matlabheaderhtml.main;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 
 
@@ -51,6 +52,7 @@ public class Writer {
 			sb.append("<li>\n <a href=\""+pathToSibling+" \"> " + sibling.getName() +"</a></li>");
 		}
 		sb.append("</ul>\n\n");
+		sb.append(linkToAllPackages(pathToDoc));
 	}
 
 	/**
@@ -118,6 +120,7 @@ public class Writer {
 			sb.append("<li>\n <a href=\""+pathToSibling+" \"> " + sibling.getName() +"</a></li>");
 		}
 		sb.append("</ul>\n\n");
+		sb.append(linkToAllPackages(pathToDoc));
 		return sb.toString();
 	}
 
@@ -138,4 +141,36 @@ public class Writer {
 		return pathToDoc + "/" + matlabPackage.getName() + "/all_functions.html";
 	}
 
+	private static String toString(List<MatlabPackage> listOfPackages, String pathToDoc){
+		StringBuffer sb = new StringBuffer();
+		sb.append("<h1> \n");
+		sb.append("All packages");
+		sb.append("</h1>\n");
+		sb.append("<ul>");
+		for (MatlabPackage matlabPackage : listOfPackages){
+			sb.append("<li>");
+			sb.append("<a href=\"" + pathForPackage(matlabPackage, pathToDoc)+"\">" + matlabPackage.getName() + "</a>");
+			sb.append("</li>");
+		}
+		sb.append("</ul>");
+		return sb.toString();
+	}
+	
+	public static void writeListOfPackageInDoc(List<MatlabPackage> listOfPackages, String pathToDoc){
+		try {
+			String str = toString(listOfPackages, pathToDoc);
+			String pathForThisDocFile = pathToDoc + "/all_packages.html";
+			System.out.println(pathForThisDocFile);
+			PrintWriter writer = new PrintWriter(pathForThisDocFile);
+			writer.write(str);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	private static String linkToAllPackages(String pathToDoc){
+		return "<a href=\"" + pathToDoc + "/all_packages.html" +"\">" + "List of all packages" + "</a>";
+	}
 }

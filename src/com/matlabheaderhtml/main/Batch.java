@@ -84,11 +84,14 @@ public class Batch {
 			System.out.println(allFiles);
 		}
 		// finally write all packages
-		for (String packageName : Parser.getAllPackages().keySet()){
-			MatlabPackage matlabPackage = Parser.getAllPackages().get(packageName);
+		List<MatlabPackage> allPackages = new ArrayList<MatlabPackage>(Parser.getAllPackages().values());
+		for (MatlabPackage matlabPackage : allPackages){
 			Writer.writePackageInDoc(matlabPackage, pathToOutputDoc);
-			System.out.println("third pass on package "+packageName);
+			System.out.println("third pass on package "+matlabPackage.getName());
 		}
+		// and write a files with all packages
+		Writer.writeListOfPackageInDoc(allPackages, pathToOutputDoc);
+		
 	}
 
 	/**
